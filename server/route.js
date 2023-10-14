@@ -17,7 +17,8 @@ router.use((req, res, next) => {
 
 router.post("/", createTodo);
 router.get("/", getTodos);
-router.patch("/", upsertTodos);
-router.delete("/", deleteTodo);
+router.get("/:id", getTodoById);
+router.patch("/:id", upsertTodos);
+router.delete("/:id", deleteTodo);
 
 module.exports = router;

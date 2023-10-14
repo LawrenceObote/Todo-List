@@ -1,0 +1,26 @@
+.createTodoContainer {
+    display: block;
+    max-width: 575px;
+    width: 50%;
+    min-width:20%;
+    margin: 0 auto;
+    background-color: green;
+}
+
+.createTodoDiv {
+    display:flex;
+    flex-direction: row;
+}
+
+.container {
+    width: 100%;
+
+}
+
+.columnLeft {
+    width: 90%;
+}
+
+.columnRight {
+    width: 10%;
+}

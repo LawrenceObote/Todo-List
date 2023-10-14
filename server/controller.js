@@ -7,8 +7,8 @@ const createTodo = async (req, res, next) => {
     console.log(req.query.title);
     const body = req.query.body;
     const title = req.query.title;
-    // const { text, id, completed } = req.body;
-    const query = SQL`INSERT INTO todo (title, body, created_on, completed) VALUES(${title}, ${body}, CURRENT_TIMESTAMP, FALSE);`;
+
+    const query = SQL`insert into todo (title, body, created_on, completed) values(${title}, ${body}, current_timestamp, false);`;
     try {
         const data = await client.query(query);
 
@@ -23,9 +23,6 @@ const createTodo = async (req, res, next) => {
 };
 
 const getTodos = async (req, res, next) => {
-
-    if(req.query.id) return getTodoById(req, res, next);
-
     try {
         const data = await client.query(
             "SELECT * FROM todo ORDER BY created_on DESC;"
@@ -45,12 +42,12 @@ const getTodos = async (req, res, next) => {
 
 
 const getTodoById = async (req, res, next) => {
-    const id = req.query.id;
-    const query = SQL`SELECT * FROM todo WHERE id = ${id}`
-
+    const id = parseInt(req.params.id);
+    const query = "SELECT * FROM todo WHERE id=$1";
+    const value = [id];
 
     try {
-        const data = await client.query(query);
+        const data = await client.query;
 
         if (data.rowCount == 0) return res.status(404).send("No article exists");
 
@@ -66,15 +63,14 @@ const getTodoById = async (req, res, next) => {
 };
 
 const upsertTodos = async (req, res, next) => {
-  
-    const { id, title, body, completed,} = req.query;
-    console.log(id, title, body, completed);
+    const id = parseInt(req.params.id);
+    const { title, todo } = req.body;
 
-    const query = SQL`INSERT INTO todo (id, title, body, completed) VALUES (${id}, ${title}, ${body}, ${completed}) ON CONFLICT (id) DO UPDATE 
-    SET title = EXCLUDED.title, body = EXCLUDED.body, completed = EXCLUDED.completed;`
+    const query = "UPSERT todo SET text=$1, todo=$2 WHERE id=$3 RETURNING *;"
+    const value = [text, todo, id];
 
     try {
-        const data = await client.query(query);
+        const data = await client.query(query, value);
 
         if(data.rowCount == 0) return res.status(
             404).send("Todo does not exist");
@@ -85,16 +81,17 @@ const upsertTodos = async (req, res, next) => {
                 data: data.rows 
              });
     }   catch(error) {
-        return next(error);
+        return nexr(error);
     }
 };
 
     const deleteTodo = async (req, res, next) => {
-        const id = req.query.id;
-        const query = SQL`DELETE FROM todo WHERE id = ${id};`;
+        const id = parseInt(req.params.id);
+        const value = [id];
+        const query = "DELETE FROM todo WHERE id=&1;";
 
         try {
-            const data = await client.query(query);
+            const data = await client.query(query, value);
 
             if (data.rowCount == 0) return res.status(404).send("todo does not exist");
 
