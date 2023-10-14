@@ -5,10 +5,9 @@ const SQL = require('sql-template-strings')
 
 const createTodo = async (req, res, next) => {
     console.log(req.query.title);
-    const body = req.query.body;
     const title = req.query.title;
 
-    const query = SQL`insert into todo (title, body, created_on, completed) values(${title}, ${body}, current_timestamp, false);`;
+    const query = SQL`insert into todo (title, created_on, completed) values(${title}, current_timestamp, false);`;
     try {
         const data = await client.query(query);
 

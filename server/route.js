@@ -11,8 +11,7 @@ const {
 } = require("./controller");
 
 router.use((req, res, next) => {
-    console.log('Time: ', Date.now())
-    next()
+    next();
   })
 
 router.post("/", createTodo);

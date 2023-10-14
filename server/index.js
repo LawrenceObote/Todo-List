@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.static(__dirname + '/client'));
 const bodyParser = require("body-parser");
 const todoRouter = require("./route");
 const path = require('path');
@@ -15,15 +16,17 @@ app.use(
 );
 
 const port = process.env.PORT || 3000;
-console.log(process.env)
 app.listen(port,() =>{
     console.log('Node.js listening... ' + port + path.join(__dirname, '..', 'client', 'index.html'));
 })
 app.use("/todo_list", todoRouter);
-app.use('/static', express.static(path.join(__dirname, '..', 'client')))
+app.use('/todo_list/static', express.static(path.join(__dirname, '..', 'client')))
 app.get("/", (req, res) => {
-
   res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
+})
+app.post("/", (req, res) => {
+  console.log("Post request called");
+  res.sendText(req.title);
 })
 
 //https://expressjs.com/en/guide/routing.html
