@@ -18,6 +18,6 @@ router.post("/", createTodo);
 router.get("/", getTodos);
 router.get("/:id", getTodoById);
 router.patch("/:id", upsertTodos);
-router.delete("/:id", deleteTodo);
+router.delete("/", deleteTodo);
 
 module.exports = router;

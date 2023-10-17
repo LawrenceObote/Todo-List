@@ -1,11 +1,8 @@
-
-//create read update/patch delete
 const { client } = require("./config");
 const SQL = require('sql-template-strings')
 
 const createTodo = async (req, res, next) => {
-    console.log(req.query.title);
-    const title = req.query.title;
+    const title = req.body.title;
 
     const query = SQL`insert into todo (title, created_on, completed) values(${title}, current_timestamp, false);`;
     try {
@@ -62,7 +59,7 @@ const getTodoById = async (req, res, next) => {
 };
 
 const upsertTodos = async (req, res, next) => {
-    const id = parseInt(req.params.id);
+    const id = parseInt(req.query.id);
     const { title, todo } = req.body;
 
     const query = "UPSERT todo SET text=$1, todo=$2 WHERE id=$3 RETURNING *;"
@@ -85,14 +82,12 @@ const upsertTodos = async (req, res, next) => {
 };
 
     const deleteTodo = async (req, res, next) => {
-        const id = parseInt(req.params.id);
-        const value = [id];
-        const query = "DELETE FROM todo WHERE id=&1;";
+        const id = req.query.id;
 
+        const query = SQL`DELETE FROM todo WHERE ID = ${id};`;
         try {
-            const data = await client.query(query, value);
-
-            if (data.rowCount == 0) return res.status(404).send("todo does not exist");
+            const data = await client.query(query);
+            // if (data.rowCount == 0) return res.status(404).send("todo does not exist");
 
             return res.status(200).json({
                 status:200,

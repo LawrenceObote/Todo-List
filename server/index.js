@@ -20,13 +20,17 @@ app.listen(port,() =>{
     console.log('Node.js listening... ' + port + path.join(__dirname, '..', 'client', 'index.html'));
 })
 app.use("/todo_list", todoRouter);
-app.use('/todo_list/static', express.static(path.join(__dirname, '..', 'client')))
+app.use('/todo_list/static', express.static(path.join(__dirname, '..', 'client')));
+app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'client', 'index.html'));
 })
 app.post("/", (req, res) => {
   console.log("Post request called");
   res.sendText(req.title);
+})
+app.delete("/", (req, res) => {
+  console.log("Delete request called", req)
 })
 
 //https://expressjs.com/en/guide/routing.html
