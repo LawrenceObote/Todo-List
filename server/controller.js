@@ -59,14 +59,16 @@ const getTodoById = async (req, res, next) => {
 };
 
 const upsertTodos = async (req, res, next) => {
-    const id = parseInt(req.query.id);
-    const { title, todo } = req.body;
+    console.log("here's req", req)
+    const { title, id } = req.body;
 
-    const query = "UPSERT todo SET text=$1, todo=$2 WHERE id=$3 RETURNING *;"
-    const value = [text, todo, id];
+    const query = SQL`INSERT INTO todo (id, title)
+    VALUES (${id}, ${title})
+    ON CONFLICT (id)
+    DO UPDATE SET title = EXCLUDED.title;`;
 
     try {
-        const data = await client.query(query, value);
+        const data = await client.query(query);
 
         if(data.rowCount == 0) return res.status(
             404).send("Todo does not exist");
@@ -77,7 +79,7 @@ const upsertTodos = async (req, res, next) => {
                 data: data.rows 
              });
     }   catch(error) {
-        return nexr(error);
+        return next(error);
     }
 };
 

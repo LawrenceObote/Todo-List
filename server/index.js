@@ -32,7 +32,10 @@ app.post("/", (req, res) => {
 app.delete("/", (req, res) => {
   console.log("Delete request called", req)
 })
-
+app.put("/", (req, res) => {
+  console.log("Patch request called")
+})
+ 
 //https://expressjs.com/en/guide/routing.html
 //https://stackoverflow.com/questions/30845416/how-to-go-back-1-folder-level-with-dirname path source
 //https://expressjs.com/en/starter/static-files.html static path for css
