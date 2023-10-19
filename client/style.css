@@ -1,15 +1,39 @@
+.title {
+    margin: auto;
+    width: 40%;
+    padding: 10px;
+}
+
+#createForm {
+    width: 100%;
+}
+
 .createTodoContainer {
-    display: block;
-    max-width: 575px;
-    width: 50%;
-    min-width:20%;
-    margin: 0 auto;
-    background-color: green;
+    border-radius: 5px;
+    margin: auto;
+    width: 42%;
+    padding-bottom: 10px;
+    color: hsl(234, 39%, 85%);
+    text-align: center;
+    max-width: 540px;
 }
 
 .createTodoDiv {
     display:flex;
     flex-direction: row;
+    height: 40px;
+    line-height: 40px;
+    padding-bottom: 20px;
+    background-color: hsl(235, 21%, 11%);
+    width: 100%;
+}
+
+#createInput {
+    border-radius: 5px;
+    width: 40%;
+    background-color: hsl(235, 21%, 11%);
+    color: hsl(234, 39%, 85%);
+    text-align: center;
 }
 
 .container {
@@ -19,8 +43,132 @@
 
 .columnLeft {
     width: 90%;
+    padding: 0px;
 }
 
 .columnRight {
     width: 10%;
+    padding: 0px;
+}
+
+.listContainer {
+    border-radius: 5px;
+    margin: auto;
+    padding: 0px;
+    width: 42%;
+    background-color: hsl(235, 21%, 11%);
+    color: hsl(234, 39%, 85%);
+    text-align: center;
+    max-width: 540px;
+
+}
+
+ul {
+    display: inline-block;
+    text-align: left;
+    width: 100%;
+    padding-left: 0px;
+}
+
+li {
+    list-style-type: none;
+    height: 40px;
+    border-bottom: solid 1px hsl(234, 39%, 85%);
+    border-left: none;
+    border-right: none;
+    margin:0 auto;
+    width: 100%;
+    max-width: 520px;
+}
+
+
+
+
+.popupContainer {
+    position: absolute;
+    width: 40%;
+    left: 50%;
+    background-color: hsl(234, 39%, 85%);
+  }
+
+  .popupWrapper {
+    position:fixed;
+    display: flex;
+    flex-direction: row;
+    left: 50%;
+    top: 50%;
+    width: 40%;
+    height: 40px;
+    -ms-transform: translate(-50%,-50%);
+    -moz-transform:translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+     transform: translate(-50%,-50%);
+     background-color: hsl(234, 39%, 85%);
+  }
+
+  .popupInput {
+    background-color: white;
+    margin: auto;
+    width: 60%;
+  }
+
+.hide {
+    visibility: hidden;
+}
+/* The actual popup (appears on top)
+.popup .popuptext {
+  display: none;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+} */
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+    background-color: hsl(235, 21%, 11%);
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+    background-color: hsl(235, 21%, 11%);
+}
+
+.deleteButton {
+    float: right;
 }
