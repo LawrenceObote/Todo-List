@@ -71,6 +71,8 @@ ul {
 }
 
 li {
+    display: flex;
+    flex-direction: row;
     list-style-type: none;
     height: 40px;
     border-bottom: solid 1px hsl(234, 39%, 85%);
@@ -79,6 +81,7 @@ li {
     margin:0 auto;
     width: 100%;
     max-width: 520px;
+    padding-left: 20px;
 }
 
 
@@ -169,6 +172,69 @@ li {
     background-color: hsl(235, 21%, 11%);
 }
 
-.deleteButton {
-    float: right;
+.editButtonDiv {
+    width: 8%;
 }
+
+.editButton {
+    display: block;
+    height: 15px;
+    width: 15px;
+    margin-top: 5px;
+    border-radius: 50%;
+    border: 1px solid white;
+    right: 30px;
+}
+
+.deleteButtonDiv {
+    width: 8%;
+}
+
+.deleteButton {
+    display: block;
+    height: 15px;
+    width: 15px;
+    margin-top: 5px;
+    border-radius: 50%;
+    /* border: 1px solid white; */
+    right: 10px;
+    content: ' ';
+    color: red;
+  font-weight: 300;
+  font-family: Arial, sans-serif;
+}
+
+.completedDiv {
+    padding-right: 10px;
+    margin: 0;
+    top: 20%;
+}
+
+.completedButton {
+    display: block;
+    height: 15px;
+    width: 15px;
+    margin-top: 5px;
+    border-radius: 50%;
+    border: 1px solid white;
+    /* font-size: 5px; */
+}
+
+.todoTextDiv {
+    width: 80%;
+    padding-left: 10px;
+    bottom: 20%;
+}
+
+.todoText {
+
+}
+
+.close:checked {
+      color: red;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+
+/* https://alvarotrigo.com/blog/css-round-button/#:~:text=To%20create%20a%20rounded%20button,for%20the%20boorder%2Dradius%20property. */

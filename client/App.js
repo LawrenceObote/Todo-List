@@ -89,14 +89,20 @@ const renderTodosUl = async () => {
     const todoListHtml = todoList.map((todo) => {
         let li = document.createElement('li');
 
+        let deleteButtonDiv = document.createElement('div');
+        deleteButtonDiv.classList.add('deleteButtonDiv');
         let deleteButton = document.createElement('button');
+        deleteButton.innerText = 'X';
         deleteButton.classList.add("deleteButton");
+        deleteButtonDiv.appendChild(deleteButton);
         deleteButton.addEventListener("click", (e) => {
             deleteTodo(todo.id);
             li.remove();
         });
-
+        let editButtonDiv = document.createElement('div');
+        editButtonDiv.classList.add('editButtonDiv');
         let editButton = document.createElement('button');
+        editButtonDiv.appendChild(editButton);
         editButton.classList.add("editButton");
         editButton.innherHtml = "Update Todo";
         let popupForm = document.createElement('form');
@@ -142,12 +148,28 @@ const renderTodosUl = async () => {
         })
         // <input id="createInput" type="text" name="createInput" value="value"/>
         let body = document.getElementById("body");
-        li.innerHTML = todo.title;
-        li.appendChild(editButton);
-        li.appendChild(deleteButton);
+        let completedDiv = document.createElement('div');
+        completedDiv.classList.add('completedDiv');
+        let completedButton = document.createElement('button');
+        completedButton.classList.add('completedButton');
+        completedDiv.appendChild(completedButton);
+        let todoTextDiv = document.createElement('div');
+        todoTextDiv.classList.add('todoTextDiv');
+        let todoText = document.createElement('p');
+        todoText.classList.add('todoText');
+        todoText.textContent = todo.title;
+        todoTextDiv.appendChild(todoText);
+        li.appendChild(completedDiv);
+        li.appendChild(todoTextDiv);
+        li.appendChild(editButtonDiv);
+        li.appendChild(deleteButtonDiv);
         body.appendChild(popupForm);
-        li.appendChild(deleteButton);
         list.appendChild(li);
+
+        li.style = {
+            paddingLeft: '10px',
+
+        }
     })
 
     list.innerHTML.value = todoListHtml;
