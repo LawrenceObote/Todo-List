@@ -10,6 +10,7 @@ const getTodos = async () => {
     )
 
     const todos = await response.json();
+    appState = todos.data;
     return todos.data;
 }
 
@@ -37,6 +38,8 @@ const createTodoItem = async (text) => {
         throw new Error(`HTTP error: status: ${response.status}`)
     }
     console.log(response);
+    clearTodos();
+    renderTodosUl();
     
 }
 
@@ -57,7 +60,7 @@ const deleteTodo = async (id) => {
 
 const upsertTodo = async (id, title) => {
     const url = `http://localhost:3000/todo_list/`;
-
+    console.log("here is the title", title)
     const response = await fetch(
         url,
         {
@@ -77,14 +80,68 @@ const upsertTodo = async (id, title) => {
     }
 }
 
+const setCompleted = async (todo) => {
+    const url = `http://localhost:3000/todo_list/`;
+
+    const response = await fetch(
+        url,
+        {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify({
+                id: todo.id,
+            }) 
+        }
+    )
+    if(!response.ok) {
+        throw new Error(`HTTP error: status: ${response.status}`)
+    }
+}
+
+const editTodos = async (id, title) => {
+    const url = `http://localhost:3000/todo_list/`;
+    let headers;
+
+    if(title){
+        headers = {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify({
+                id: id,
+                title: title,
+            }) 
+        }
+    } else {
+        headers = {
+            method: 'PUT',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify({
+                id: id,
+            }) 
+        }
+    }
+
+    const response = await fetch(
+        url,
+        headers
+    )
+    if(!response.ok) {
+        throw new Error(`HTTP error: status: ${response.status}`)
+    }
+}
+
 const renderTodosUl = async () => {
     let list = document.getElementById('todoList');
-    let todoList = appState.todos; 
-
-    if(!todoList) {
-        todoList = await getTodos();
-        appState.todos = todoList;
-    }
+    let todoList = await getTodos(); 
 
     const todoListHtml = todoList.map((todo) => {
         let li = document.createElement('li');
@@ -106,7 +163,6 @@ const renderTodosUl = async () => {
         editButton.classList.add("editButton");
         editButton.innherHtml = "Update Todo";
         let popupForm = document.createElement('form');
-        // popupForm.classList.add("popupContainer");
         popupForm.setAttribute("id", `popupForm${todo.id}`);
         popupForm.classList.add("popupContainer");
         let popup = document.createElement('div');
@@ -117,8 +173,6 @@ const renderTodosUl = async () => {
         popupInput.setAttribute('type', 'text');
         popupInput.setAttribute('class', `popupInput`);
         popupInput.style
-        // popupInput.classList.add("popuptext");
-        // popupInput.setAttribute('value', 'value');
         let popupSubmit = document.createElement('submit');
 
         popupForm.appendChild(popup);
@@ -129,8 +183,8 @@ const renderTodosUl = async () => {
         
         popupForm.addEventListener('submit', (e) => {
             const title = popupInput.value; //CHECK THIS!!!
-            console.log(title);
-            upsertTodo(todo.id, title);
+            console.log("heyyyy", title);
+            editTodos(todo.id, title);
         })
 
         editButton.addEventListener("click", (e) => {
@@ -143,16 +197,21 @@ const renderTodosUl = async () => {
                 popup.style.visibility = "hidden";
                 popupForm.style.visibility = "hidden";
             }
-            // popupForm.classList.toggle("show");
             console.log(popupForm)
         })
-        // <input id="createInput" type="text" name="createInput" value="value"/>
         let body = document.getElementById("body");
         let completedDiv = document.createElement('div');
         completedDiv.classList.add('completedDiv');
         let completedButton = document.createElement('button');
+        completedButton.setAttribute("completed", `${todo.completed}`);
         completedButton.classList.add('completedButton');
         completedDiv.appendChild(completedButton);
+
+        completedButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            editTodos(todo.id);
+
+        })
         let todoTextDiv = document.createElement('div');
         todoTextDiv.classList.add('todoTextDiv');
         let todoText = document.createElement('p');
@@ -177,11 +236,16 @@ const renderTodosUl = async () => {
 
 
 
-const populateState = async () => {
-    appState.todo = await getTodos();
+const clearTodos = () => {
+    while(document.getElementById('todoList').firstChild){
+        document.getElementById('todoList').firstChild.remove();
+    }
 }
 
-populateState();
+const refreshTodoList = async () => {
+    await clearTodos();
+    renderTodosUl()
+};
 renderTodosUl();
 
 
@@ -191,4 +255,6 @@ form.addEventListener('submit', (e) => {
     const title = document.getElementById("createInput").value;
     console.log(title);
     createTodoItem(title);
+    refreshTodoList();
+    console.log(appState);
 });

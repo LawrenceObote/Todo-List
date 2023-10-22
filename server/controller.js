@@ -58,9 +58,7 @@ const getTodoById = async (req, res, next) => {
     }
 };
 
-const upsertTodos = async (req, res, next) => {
-    console.log("here's req", req)
-    const { title, id } = req.body;
+const upsertTodos = async (id, title) => {
 
     const query = SQL`INSERT INTO todo (id, title)
     VALUES (${id}, ${title})
@@ -79,7 +77,7 @@ const upsertTodos = async (req, res, next) => {
                 data: data.rows 
              });
     }   catch(error) {
-        return next(error);
+        return (error);
     }
 };
 
@@ -100,11 +98,39 @@ const upsertTodos = async (req, res, next) => {
         }
     }
 
+    const setCompleted = async (id) => {
+        const query = SQL`UPDATE todo SET completed = NOT completed WHERE ID = ${id}`;
+
+    try {
+        const data = await client.query(query);
+
+        if(data.rowCount == 0) return res.status(
+            404).send("Todo does not exist");
+
+            return res.status(200).json({
+                status:200,
+                message: "Completed status updated successfully",
+                data: data.rows 
+             });
+    }   catch(error) {
+        return (error);
+    }
+    }
+
+    const editTodo = async (req, res, next) => {
+        console.log("lets goo", req.body, req.query);
+        if(req.body.title) {
+            await upsertTodos(req.body.id, req.body.title);
+            return;
+        }
+        await setCompleted(req.body.id);
+    }
+
 
 module.exports = {
     createTodo,
     getTodoById,
     getTodos,
-    upsertTodos,
     deleteTodo,
+    editTodo,
 };

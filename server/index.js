@@ -4,7 +4,13 @@ app.use(express.static(__dirname + '/client'));
 const bodyParser = require("body-parser");
 const todoRouter = require("./route");
 const path = require('path');
-const { createTodo } = require("./controller");
+const { 
+  createTodo,
+    getTodoById,
+    editTodo,
+    deleteTodo,
+    getTodos,
+ } = require("./controller");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -32,9 +38,7 @@ app.post("/", (req, res) => {
 app.delete("/", (req, res) => {
   console.log("Delete request called", req)
 })
-app.put("/", (req, res) => {
-  console.log("Patch request called")
-})
+app.put("/", editTodo);
  
 //https://expressjs.com/en/guide/routing.html
 //https://stackoverflow.com/questions/30845416/how-to-go-back-1-folder-level-with-dirname path source

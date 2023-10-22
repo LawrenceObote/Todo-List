@@ -4,7 +4,7 @@ const router = express.Router();
 const {
     createTodo,
     getTodoById,
-    upsertTodos,
+    editTodo,
     deleteTodo,
     getTodos,
 
@@ -17,7 +17,7 @@ router.use((req, res, next) => {
 router.post("/", createTodo);
 router.get("/", getTodos);
 router.get("/:id", getTodoById);
-router.put("/", upsertTodos);
+router.put("/", editTodo);
 router.delete("/", deleteTodo);
 
 module.exports = router;
