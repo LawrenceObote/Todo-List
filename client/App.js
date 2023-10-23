@@ -158,10 +158,12 @@ const renderTodosUl = async () => {
         });
         let editButtonDiv = document.createElement('div');
         editButtonDiv.classList.add('editButtonDiv');
-        let editButton = document.createElement('button');
-        editButtonDiv.appendChild(editButton);
-        editButton.classList.add("editButton");
-        editButton.innherHtml = "Update Todo";
+        // let editButton = document.createElement('button');
+        // editButtonDiv.appendChild(editButton);
+        // editButton.classList.add("editButton");
+        const editButtonImage = new Image(24, 24);
+        editButtonImage.src = '/todo_list/static/EditPencil.ico';
+        editButtonDiv.appendChild(editButtonImage);
         let popupForm = document.createElement('form');
         popupForm.setAttribute("id", `popupForm${todo.id}`);
         popupForm.classList.add("popupContainer");
@@ -172,6 +174,8 @@ const renderTodosUl = async () => {
         popupInput.setAttribute('id', `popupInput${todo.id}`);
         popupInput.setAttribute('type', 'text');
         popupInput.setAttribute('class', `popupInput`);
+        popupInput.setAttribute('placeholder', 'Enter updated todo text here');
+        popupInput.classList.add("popupInput");
         popupInput.style
         let popupSubmit = document.createElement('submit');
 
@@ -187,7 +191,8 @@ const renderTodosUl = async () => {
             editTodos(todo.id, title);
         })
 
-        editButton.addEventListener("click", (e) => {
+
+        editButtonImage.addEventListener("click", (e) => {
             e.preventDefault();
             popupForm.style.visbility = popup.style.visbility;
             if(popup.style.visibility === "hidden"){
@@ -197,6 +202,19 @@ const renderTodosUl = async () => {
                 popup.style.visibility = "hidden";
                 popupForm.style.visibility = "hidden";
             }
+
+            document.addEventListener("click", (e) => {
+
+                if(e.composedPath().includes(editButtonDiv)) return;
+                const isClickedInsideDiv = e.composedPath().includes(popupForm)
+                console.log("clicked", isClickedInsideDiv);
+                if (!isClickedInsideDiv && popup.style.visibility == "visible" ||
+                popupForm.style.visibility == "visible" ) {
+                    popupForm.style.visibility = "hidden";
+                    popup.style.visibility = "hidden";
+                } 
+            })
+
             console.log(popupForm)
         })
         let body = document.getElementById("body");
