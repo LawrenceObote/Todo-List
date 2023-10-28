@@ -1,15 +1,16 @@
 .title {
-    margin: auto;
     width: 40%;
-    padding: 10px;
+    color: hsl(235, 21%, 11%)
 }
 
 #container {
     width: 40%;
+    max-width: 600px;
 }
 
 #createForm {
     width: 100%;
+    border-radius: 5px;
 }
 
 .createTodoContainer {
@@ -23,10 +24,11 @@
 }
 
 .createTodoDiv {
+    border-radius: 5px;
     display:flex;
     flex-direction: row;
-    height: 40px;
-    line-height: 40px;
+    height: 70px;
+    line-height: 70px;
     padding-bottom: 20px;
     padding-right: 0px;
     background-color: hsl(235, 21%, 11%);
@@ -37,10 +39,11 @@
     border-radius: 5px;
     border: 1px hsl(234, 39%, 85%) solid;
     height: 35px;
-    width: 60%;
+    width: 70%;
     background-color: hsl(235, 21%, 11%);
-    color: hsl(235, 21%, 11%);
+    color: hsl(234, 39%, 85%);
     text-align: center;
+    margin-top: 15px;
 
 }
 
@@ -64,13 +67,12 @@
 
 .listContainer {
     border-radius: 5px;
-    margin: auto;
+    margin: 0 auto;
     padding: 0px;
     width: 100%;
     background-color: hsl(235, 21%, 11%);
     color: hsl(234, 39%, 85%);
     text-align: center;
-    max-width: 540px;
 
 }
 
@@ -78,20 +80,19 @@ ul {
     display: inline-block;
     text-align: left;
     width: 100%;
-    padding-left: 0px;
+    padding: 0px;
+    margin: 0px;
 }
 
 li {
     display: flex;
     flex-direction: row;
     list-style-type: none;
-    height: 40px;
+    height: 50px;
     border-bottom: solid 1px hsl(234, 39%, 85%);
     border-left: none;
     border-right: none;
-    margin:0 auto;
     width: 100%;
-    max-width: 520px;
     padding-left: 20px;
 }
 
@@ -128,6 +129,7 @@ li {
     margin: auto;
     width: 60%;
     opacity: 1.0;
+    color: hsl(234, 39%, 85%);
   }
 
 .hide {
@@ -198,44 +200,62 @@ li {
     margin-top: 5px;
     border: none;
     right: 30px;
-    background-color: hsl(235, 21%, 11%);;
+    background-color: hsl(235, 21%, 11%);
 }
 
+.editPencil {
+    margin-top: 10px;
+    right: 30px;
+    font-size: 20px;
+    background-image: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 18px;
+    text-align: center;
+}
+
+
 .deleteButtonDiv {
+    border: none;
+    right: 30px;
+    margin-left: 5px;
     width: 8%;
-    margin-top: 5px;
-    margin-right: 10px;
 }
 
 .deleteButton {
-    display: block;
-    height: 15px;
-    width: 15px;
-    margin-right: 10px;
-    right: 10px;
+    background-image: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+    border-radius: 50%;
     border: none;
-    content: ' ';
-    color: hsl(234, 39%, 85%);
-    background-color: hsl(235, 21%, 11%);
-    font-size: 15px;
-  font-weight: 300;
-  font-family: Arial, sans-serif;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 18px;    color: hsl(234, 39%, 85%);
+    font-size: 20px;
+  
 }
 
 .completedDiv {
     padding-right: 10px;
     margin: 0;
     top: 20%;
+    background-color: hsl(235, 21%, 11%);
 }
 
-.completedButton {
-    display: block;
-    height: 15px;
-    width: 15px;
-    margin-top: 5px;
-    border-radius: 50%;
-    border: 1px solid white;
-    /* font-size: 5px; */
+.completedCheck {
+        background-image: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        margin-top: 18px;
+        text-align: center;
+}
+
+
+.icons {
+
 }
 
 .todoTextDiv {
@@ -252,7 +272,7 @@ li {
       color: red;
       text-decoration: none;
       cursor: pointer;
-    }
+}
 
 
 /* https://alvarotrigo.com/blog/css-round-button/#:~:text=To%20create%20a%20rounded%20button,for%20the%20boorder%2Dradius%20property. */

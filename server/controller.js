@@ -69,10 +69,10 @@ const upsertTodos = async (id, title) => {
         const data = await client.query(query);
 
         if(data.rowCount == 0) return res.status(
-            404).send("Todo does not exist");
+            204).send("Todo does not exist");
 
             return res.status(200).json({
-                status:200,
+                status:200, //check for more specific success
                 message: "Todo updated successfully",
                 data: data.rows 
              });

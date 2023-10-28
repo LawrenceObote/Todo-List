@@ -149,7 +149,7 @@ const renderTodosUl = async () => {
         let deleteButtonDiv = document.createElement('div');
         deleteButtonDiv.classList.add('deleteButtonDiv');
         let deleteButton = document.createElement('button');
-        deleteButton.innerText = 'X';
+        deleteButton.innerText = decodeHTMLEntities('&#10008;');
         deleteButton.classList.add("deleteButton");
         deleteButtonDiv.appendChild(deleteButton);
         deleteButton.addEventListener("click", (e) => {
@@ -161,9 +161,17 @@ const renderTodosUl = async () => {
         // let editButton = document.createElement('button');
         // editButtonDiv.appendChild(editButton);
         // editButton.classList.add("editButton");
-        const editButtonImage = new Image(24, 24);
-        editButtonImage.src = '/todo_list/static/EditPencil.ico';
-        editButtonDiv.appendChild(editButtonImage);
+        function decodeHTMLEntities(text) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = text;
+            return textArea.value;
+          }
+        let editPencil = document.createElement('p');
+        let editPencilCode = '&#9998;';
+        editPencil.innerText = decodeHTMLEntities(editPencilCode);
+        editPencil.classList.add('editPencil');
+        // editSpan.classList.add('span');
+        editButtonDiv.appendChild(editPencil);
         let popupForm = document.createElement('form');
         popupForm.setAttribute("id", `popupForm${todo.id}`);
         popupForm.classList.add("popupContainer");
@@ -192,7 +200,7 @@ const renderTodosUl = async () => {
         })
 
 
-        editButtonImage.addEventListener("click", (e) => {
+        editPencil.addEventListener("click", (e) => {
             e.preventDefault();
             popupForm.style.visbility = popup.style.visbility;
             if(popup.style.visibility === "hidden"){
@@ -204,12 +212,12 @@ const renderTodosUl = async () => {
             }
 
             document.addEventListener("click", (e) => {
-
+                console.log(e.composedPath().includes(editButtonDiv));
                 if(e.composedPath().includes(editButtonDiv)) return;
                 const isClickedInsideDiv = e.composedPath().includes(popupForm)
                 console.log("clicked", isClickedInsideDiv);
-                if (!isClickedInsideDiv && popup.style.visibility == "visible" ||
-                popupForm.style.visibility == "visible" ) {
+                if (!isClickedInsideDiv && (popup.style.visibility == "visible" ||
+                popupForm.style.visibility == "visible") ) {
                     popupForm.style.visibility = "hidden";
                     popup.style.visibility = "hidden";
                 } 
@@ -220,12 +228,16 @@ const renderTodosUl = async () => {
         let body = document.getElementById("body");
         let completedDiv = document.createElement('div');
         completedDiv.classList.add('completedDiv');
-        let completedButton = document.createElement('button');
-        completedButton.setAttribute("completed", `${todo.completed}`);
-        completedButton.classList.add('completedButton');
-        completedDiv.appendChild(completedButton);
+        let completedCheck = document.createElement('p');
+        let completedCheckCode = '&#10004;';
+        completedCheck.innerText = decodeHTMLEntities(completedCheckCode);
+        completedCheck.classList.add('completedCheck');
+        completedDiv.appendChild(completedCheck);
 
-        completedButton.addEventListener("click", (e) => {
+        completedCheck.setAttribute("completed", `${todo.completed}`);
+        completedCheck.classList.add('completedCheck');
+
+        completedCheck.addEventListener("click", (e) => {
             e.preventDefault();
             editTodos(todo.id);
 
