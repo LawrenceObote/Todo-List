@@ -7,7 +7,6 @@ const {
   editTodo,
   deleteTodo,
   getTodos,
-  createTable,
 } = require("./controller");
 
 router.use((req, res, next) => {
@@ -17,7 +16,6 @@ router.use((req, res, next) => {
 router.post("/", createTodo);
 router.get("/", getTodos);
 router.get("/:id", getTodoById);
-router.get("/createtable", createTable);
 router.put("/", editTodo);
 router.delete("/", deleteTodo);
 

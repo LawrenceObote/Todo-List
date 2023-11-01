@@ -65,7 +65,6 @@ app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
-app.get("/createtable", createTable);
 app.post("/", (req, res) => {
   console.log("Post request called");
   res.sendText(req.title);
