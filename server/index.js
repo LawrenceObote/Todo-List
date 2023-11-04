@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const serverless = require("serverless-http");
 app.use(express.static(__dirname + "/client"));
 const bodyParser = require("body-parser");
 const todoRouter = require("./route");
@@ -55,8 +56,7 @@ app.listen(port, () => {
       path.join(__dirname, "..", "client", "index.html")
   );
 });
-app.use("/todo_list", todoRouter);
-app.use("/todo_list/createtable", todoRouter);
+app.use("/todo_list/", todoRouter);
 app.use(
   "/todo_list/static",
   express.static(path.join(__dirname, "..", "client"))
@@ -73,6 +73,8 @@ app.delete("/", (req, res) => {
   console.log("Delete request called", req);
 });
 app.put("/", editTodo);
+
+export const handler = serverless(api);
 
 //https://expressjs.com/en/guide/routing.html
 //https://stackoverflow.com/questions/30845416/how-to-go-back-1-folder-level-with-dirname path source
