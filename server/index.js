@@ -1,5 +1,7 @@
 const express = require("express");
+const Router = require("express");
 const app = express();
+const router = Router();
 const serverless = require("serverless-http");
 app.use(express.static(__dirname + "/client"));
 const bodyParser = require("body-parser");
@@ -38,8 +40,8 @@ db.sequelize.sync({ force: true }).then(() => {
 // const db = require("../auth/models");
 // db.sequalize.sync();
 
-require("../auth/routes/auth.routes")(app);
-require("../auth/routes/user.routes");
+require("../../auth/routes/auth.routes")(app);
+require("../../auth/routes/user.routes");
 
 app.use(bodyParser.json());
 app.use(
@@ -61,8 +63,10 @@ app.use(
   "/todo_list/static",
   express.static(path.join(__dirname, "..", "client"))
 );
+router.get("/hello", (req, res) => res.send("Hello World!"));
+
 app.use(bodyParser.json());
-app.use("/.netlify/server", todoRouter);
+app.use("/server/index", router);
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });

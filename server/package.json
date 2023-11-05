@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/netlify-lambda serve server",
+    "server": "NODE_ENV=development ./node_modules/.bin/netlify-lambda serve server /",
+    "start": "NODE_ENV=development ./node_modules/.bin/netlify-lambda serve server /",
     "dev": "nodemon index.js",
-    "build": "./node_modules/.bin/netlify-lambda serve server"
+    "build": "NODE_ENV=production./node_modules/.bin/netlify-lambda serve server /"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +14,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
+    "netlify-cli": "^17.0.1",
     "netlify-lambda": "^2.0.16",
     "pg": "^8.11.3",
     "pg-pool": "^3.6.1",

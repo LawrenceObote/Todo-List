@@ -1,10 +1,9 @@
 //https://www.bezkoder.com/node-js-jwt-authentication-postgresql/#Project_Structure
 
-const config = require ("../../server/config");
+const config = require("../../server/config");
 const Sequelize = require("sequelize");
 const dotenv = require("dotenv");
 dotenv.config();
-
 
 // const sequelize = new Sequelize(
 //     'todo_list',
@@ -22,7 +21,7 @@ dotenv.config();
 //     }
 // );
 
-const sequelize = new Sequelize(process.env.DATABASE_URL)
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 const db = {};
 
@@ -34,13 +33,12 @@ db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 
 db.role.belongsToMany(db.user, {
-    through: "user_roles"
+  through: "user_roles",
 });
 db.user.belongsToMany(db.role, {
-    through: "user_roles"
+  through: "user_roles",
 });
 
 db.ROLES = ["user", "admin", "moderator"];
 
 module.exports = db;
-

@@ -8,26 +8,24 @@ verifyToken = (req, res, next) => {
 
   if (!token) {
     return res.status(403).send({
-      message: "No token provided!"
+      message: "No token provided!",
     });
   }
 
-  jwt.verify(token,
-            config.secret,
-            (err, decoded) => {
-              if (err) {
-                return res.status(401).send({
-                  message: "Unauthorized!",
-                });
-              }
-              req.userId = decoded.id;
-              next();
-            });
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if (err) {
+      return res.status(401).send({
+        message: "Unauthorized!",
+      });
+    }
+    req.userId = decoded.id;
+    next();
+  });
 };
 
 isAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
+  User.findByPk(req.userId).then((user) => {
+    user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "admin") {
           next();
@@ -36,7 +34,7 @@ isAdmin = (req, res, next) => {
       }
 
       res.status(403).send({
-        message: "Require Admin Role!"
+        message: "Require Admin Role!",
       });
       return;
     });
@@ -44,8 +42,8 @@ isAdmin = (req, res, next) => {
 };
 
 isModerator = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
+  User.findByPk(req.userId).then((user) => {
+    user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "moderator") {
           next();
@@ -54,15 +52,15 @@ isModerator = (req, res, next) => {
       }
 
       res.status(403).send({
-        message: "Require Moderator Role!"
+        message: "Require Moderator Role!",
       });
     });
   });
 };
 
 isModeratorOrAdmin = (req, res, next) => {
-  User.findByPk(req.userId).then(user => {
-    user.getRoles().then(roles => {
+  User.findByPk(req.userId).then((user) => {
+    user.getRoles().then((roles) => {
       for (let i = 0; i < roles.length; i++) {
         if (roles[i].name === "moderator") {
           next();
@@ -76,7 +74,7 @@ isModeratorOrAdmin = (req, res, next) => {
       }
 
       res.status(403).send({
-        message: "Require Moderator or Admin Role!"
+        message: "Require Moderator or Admin Role!",
       });
     });
   });
@@ -86,6 +84,6 @@ const authJwt = {
   verifyToken: verifyToken,
   isAdmin: isAdmin,
   isModerator: isModerator,
-  isModeratorOrAdmin: isModeratorOrAdmin
+  isModeratorOrAdmin: isModeratorOrAdmin,
 };
 module.exports = authJwt;
