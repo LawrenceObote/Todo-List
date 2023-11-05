@@ -56,12 +56,13 @@ app.listen(port, () => {
       path.join(__dirname, "..", "client", "index.html")
   );
 });
-app.use("/todo_list/", todoRouter);
+// app.use("/todo_list/", todoRouter);
 app.use(
   "/todo_list/static",
   express.static(path.join(__dirname, "..", "client"))
 );
 app.use(bodyParser.json());
+app.use("/.netlify/server", todoRouter);
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
@@ -74,7 +75,7 @@ app.delete("/", (req, res) => {
 });
 app.put("/", editTodo);
 
-export const handler = serverless(api);
+module.exports.handler = serverless(app);
 
 //https://expressjs.com/en/guide/routing.html
 //https://stackoverflow.com/questions/30845416/how-to-go-back-1-folder-level-with-dirname path source
