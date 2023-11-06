@@ -1,8 +1,11 @@
 const express = require("express");
 const Router = require("express");
 const app = express();
+<<<<<<< HEAD
 const router = Router();
 const serverless = require("serverless-http");
+=======
+>>>>>>> parent of 23c19c8 (added netlify.toml)
 app.use(express.static(__dirname + "/client"));
 const bodyParser = require("body-parser");
 const todoRouter = require("./route");
@@ -58,7 +61,12 @@ app.listen(port, () => {
       path.join(__dirname, "..", "client", "index.html")
   );
 });
+<<<<<<< HEAD
 // app.use("/todo_list/", todoRouter);
+=======
+app.use("/todo_list", todoRouter);
+app.use("/todo_list/createtable", todoRouter);
+>>>>>>> parent of 23c19c8 (added netlify.toml)
 app.use(
   "/todo_list/static",
   express.static(path.join(__dirname, "..", "client"))
@@ -79,8 +87,11 @@ app.delete("/", (req, res) => {
 });
 app.put("/", editTodo);
 
+<<<<<<< HEAD
 module.exports.handler = serverless(app);
 
+=======
+>>>>>>> parent of 23c19c8 (added netlify.toml)
 //https://expressjs.com/en/guide/routing.html
 //https://stackoverflow.com/questions/30845416/how-to-go-back-1-folder-level-with-dirname path source
 //https://expressjs.com/en/starter/static-files.html static path for css
