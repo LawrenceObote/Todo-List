@@ -29,6 +29,20 @@ const createTodoItem = async (text) => {
     throw new Error(`HTTP error: status: ${response.status}`);
   }
   console.log(response);
+  clearTodos();
+  renderTodosUl();
+};
+
+const createTable = async () => {
+  const url = `http://localhost:3000/todo_list/createtable`;
+
+  const response = await fetch(url, {
+    method: "GET",
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error: status: ${response.status}`);
+  }
+  console.log("heyy we here");
 };
 
 const deleteTodo = async (id) => {
@@ -114,151 +128,95 @@ const editTodos = async (id, title) => {
   }
 };
 
-const createDeleteButton = (todo) => {
-  let deleteButtonDiv = document.createElement("div");
-  deleteButtonDiv.classList.add("deleteButtonDiv");
-  let deleteButton = document.createElement("button");
-  deleteButton.innerText = decodeHTMLEntities("&#10008;");
-  deleteButton.classList.add("deleteButton");
-  deleteButtonDiv.appendChild(deleteButton);
-  deleteButton.addEventListener("click", (e) => {
-    deleteTodo(todo.id);
-  });
-
-  return deleteButtonDiv;
-};
-
-const createPopupForm = (todo, editButtonDiv) => {
-  let popupForm = document.createElement("form");
-  popupForm.setAttribute("id", `popupForm${todo.id}`);
-  popupForm.classList.add("popupContainer");
-  let popup = document.createElement("div");
-  popup.classList.add("popup");
-  popup.classList.add("popupWrapper");
-  let popupInput = document.createElement("input");
-  popupInput.setAttribute("id", `popupInput${todo.id}`);
-  popupInput.setAttribute("type", "text");
-  popupInput.setAttribute("class", `popupInput`);
-  popupInput.setAttribute("placeholder", "Enter updated todo text here");
-  popupInput.classList.add("popupInput");
-  popupInput.style;
-  let popupSubmit = document.createElement("submit");
-  popupForm.appendChild(popup);
-  popup.appendChild(popupInput);
-  popup.appendChild(popupSubmit);
-  popup.style.visibility = "hidden";
-  popupForm.style.visibility = "hidden";
-  popupForm.addEventListener("submit", (e) => {
-    const title = popupInput.value; //CHECK THIS!!!
-    editTodos(todo.id, title);
-  });
-
-  editButtonDiv.firstChild.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    if (popupForm.style.visibility === "hidden") {
-      popupForm.style.visibility = "visible";
-    } else {
-      popupForm.style.visibility = "hidden";
-    }
-
-    document.addEventListener("click", (e) => {
-      console.log(e.composedPath().includes(editButtonDiv));
-      if (e.composedPath().includes(editButtonDiv)) return;
-      const isClickedInsideDiv = e.composedPath().includes(popupForm);
-      console.log("clicked", isClickedInsideDiv);
-      if (!isClickedInsideDiv && popupForm.style.visibility == "visible") {
-        popupForm.style.visibility = "hidden";
-      }
-    });
-    console.log(popupForm);
-  });
-
-  return popupForm;
-};
-
-const createEditFunctionality = (todo) => {
-  let editButtonDiv = document.createElement("div");
-  editButtonDiv.classList.add("editButtonDiv");
-  let editPencil = document.createElement("p");
-  let editPencilCode = "&#9998;";
-  editPencil.innerText = decodeHTMLEntities(editPencilCode);
-  editPencil.classList.add("editPencil");
-  editButtonDiv.appendChild(editPencil);
-
-  let popupForm = document.createElement("form");
-  popupForm.setAttribute("id", `popupForm${todo.id}`);
-  popupForm.classList.add("popupContainer");
-  let popup = document.createElement("div");
-  popup.classList.add("popup");
-  popup.classList.add("popupWrapper");
-  let popupInput = document.createElement("input");
-  popupInput.setAttribute("id", `popupInput${todo.id}`);
-  popupInput.setAttribute("type", "text");
-  popupInput.setAttribute("class", `popupInput`);
-  popupInput.setAttribute("placeholder", "Enter updated todo text here");
-  popupInput.classList.add("popupInput");
-  popupInput.style;
-  let popupSubmit = document.createElement("submit");
-  popupForm.appendChild(popup);
-  popup.appendChild(popupInput);
-  popup.appendChild(popupSubmit);
-  popup.style.visibility = "hidden";
-  popupForm.style.visibility = "hidden";
-  popupForm.addEventListener("submit", (e) => {
-    const title = popupInput.value; //CHECK THIS!!!
-    editTodos(todo.id, title);
-  });
-  editPencil.addEventListener("click", (e) => {
-    e.preventDefault();
-    console.log("functioning");
-    popupForm.style.visbility = popup.style.visbility;
-    if (popupForm.style.visibility === "hidden") {
-      popup.style.visibility = "visible";
-      popupForm.style.visibility = "visible";
-    } else {
-      popup.style.visibility = "hidden";
-      popupForm.style.visibility = "hidden";
-    }
-    document.addEventListener("click", (e) => {
-      console.log(e.composedPath().includes(editButtonDiv));
-      if (e.composedPath().includes(editButtonDiv)) return;
-      const isClickedInsideDiv = e.composedPath().includes(popupForm);
-      console.log("clicked", isClickedInsideDiv);
-      if (!isClickedInsideDiv && popupForm.style.visibility == "visible") {
-        popupForm.style.visibility = "hidden";
-      }
-    });
-    console.log(popupForm);
-  });
-
-  return [editButtonDiv, popupForm];
-};
-
-const createTodoTextDiv = (todo) => {
-  const todoTextDiv = document.createElement("div");
-  todoTextDiv.classList.add("todoTextDiv");
-  const todoText = document.createElement("p");
-  todoText.classList.add("todoText");
-  todoText.textContent = todo.title;
-  todoTextDiv.appendChild(todoText);
-
-  return todoTextDiv;
-};
-
-const decodeHTMLEntities = (text) => {
-  var textArea = document.createElement("textarea");
-  textArea.innerHTML = text;
-  return textArea.value;
-};
-
 const renderTodosUl = async () => {
   let list = document.getElementById("todoList");
+  await createTable();
   let todoList = await getTodos();
 
   const todoListHtml = todoList.map((todo) => {
     let li = document.createElement("li");
 
+    let deleteButtonDiv = document.createElement("div");
+    deleteButtonDiv.classList.add("deleteButtonDiv");
+    let deleteButton = document.createElement("button");
+    deleteButton.innerText = decodeHTMLEntities("&#10008;");
+    deleteButton.classList.add("deleteButton");
+    deleteButtonDiv.appendChild(deleteButton);
+    deleteButton.addEventListener("click", (e) => {
+      deleteTodo(todo.id);
+      li.remove();
+    });
+    let editButtonDiv = document.createElement("div");
+    editButtonDiv.classList.add("editButtonDiv");
+    // let editButton = document.createElement('button');
+    // editButtonDiv.appendChild(editButton);
+    // editButton.classList.add("editButton");
+    function decodeHTMLEntities(text) {
+      var textArea = document.createElement("textarea");
+      textArea.innerHTML = text;
+      return textArea.value;
+    }
+    let editPencil = document.createElement("p");
+    let editPencilCode = "&#9998;";
+    editPencil.innerText = decodeHTMLEntities(editPencilCode);
+    editPencil.classList.add("editPencil");
+    // editSpan.classList.add('span');
+    editButtonDiv.appendChild(editPencil);
+    let popupForm = document.createElement("form");
+    popupForm.setAttribute("id", `popupForm${todo.id}`);
+    popupForm.classList.add("popupContainer");
+    let popup = document.createElement("div");
+    popup.classList.add("popup");
+    popup.classList.add("popupWrapper");
+    let popupInput = document.createElement("input");
+    popupInput.setAttribute("id", `popupInput${todo.id}`);
+    popupInput.setAttribute("type", "text");
+    popupInput.setAttribute("class", `popupInput`);
+    popupInput.setAttribute("placeholder", "Enter updated todo text here");
+    popupInput.classList.add("popupInput");
+    popupInput.style;
+    let popupSubmit = document.createElement("submit");
+
+    popupForm.appendChild(popup);
+    popup.appendChild(popupInput);
+    popup.appendChild(popupSubmit);
+    popup.style.visibility = "hidden";
+    popupForm.style.visibility = "hidden";
+
+    popupForm.addEventListener("submit", (e) => {
+      const title = popupInput.value; //CHECK THIS!!!
+      console.log("heyyyy", title);
+      editTodos(todo.id, title);
+    });
+
+    editPencil.addEventListener("click", (e) => {
+      e.preventDefault();
+      popupForm.style.visbility = popup.style.visbility;
+      if (popup.style.visibility === "hidden") {
+        popup.style.visibility = "visible";
+        popupForm.style.visibility = "visible";
+      } else {
+        popup.style.visibility = "hidden";
+        popupForm.style.visibility = "hidden";
+      }
+
+      document.addEventListener("click", (e) => {
+        console.log(e.composedPath().includes(editButtonDiv));
+        if (e.composedPath().includes(editButtonDiv)) return;
+        const isClickedInsideDiv = e.composedPath().includes(popupForm);
+        console.log("clicked", isClickedInsideDiv);
+        if (
+          !isClickedInsideDiv &&
+          (popup.style.visibility == "visible" ||
+            popupForm.style.visibility == "visible")
+        ) {
+          popupForm.style.visibility = "hidden";
+          popup.style.visibility = "hidden";
+        }
+      });
+
+      console.log(popupForm);
+    });
     let body = document.getElementById("body");
     let completedDiv = document.createElement("div");
     completedDiv.classList.add("completedDiv");
@@ -275,18 +233,17 @@ const renderTodosUl = async () => {
       e.preventDefault();
       editTodos(todo.id);
     });
+    let todoTextDiv = document.createElement("div");
+    todoTextDiv.classList.add("todoTextDiv");
+    let todoText = document.createElement("p");
+    todoText.classList.add("todoText");
+    todoText.textContent = todo.title;
+    todoTextDiv.appendChild(todoText);
     li.appendChild(completedDiv);
-    li.appendChild(createTodoTextDiv(todo));
-    const editArray = createEditFunctionality(todo);
-    li.appendChild(editArray[0]);
-    li.appendChild(createDeleteButton(todo), li).firstChild.addEventListener(
-      "click",
-      (e) => {
-        deleteTodo(todo.id);
-        li.remove();
-      }
-    );
-    body.appendChild(editArray[1]);
+    li.appendChild(todoTextDiv);
+    li.appendChild(editButtonDiv);
+    li.appendChild(deleteButtonDiv);
+    body.appendChild(popupForm);
     list.appendChild(li);
 
     li.style = {
@@ -308,6 +265,13 @@ const refreshTodoList = async () => {
   renderTodosUl();
 };
 
+const startApp = async () => {
+  await createTable();
+  renderTodosUl();
+};
+
+startApp();
+
 const form = document.getElementById("createForm");
 form.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -317,5 +281,3 @@ form.addEventListener("submit", (e) => {
   refreshTodoList();
   console.log(appState);
 });
-
-renderTodosUl();
