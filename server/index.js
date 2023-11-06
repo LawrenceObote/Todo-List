@@ -1,11 +1,6 @@
 const express = require("express");
 const Router = require("express");
 const app = express();
-<<<<<<< HEAD
-const router = Router();
-const serverless = require("serverless-http");
-=======
->>>>>>> parent of 23c19c8 (added netlify.toml)
 app.use(express.static(__dirname + "/client"));
 const bodyParser = require("body-parser");
 const todoRouter = require("./route");
@@ -43,8 +38,8 @@ db.sequelize.sync({ force: true }).then(() => {
 // const db = require("../auth/models");
 // db.sequalize.sync();
 
-require("../../auth/routes/auth.routes")(app);
-require("../../auth/routes/user.routes");
+require("../auth/routes/auth.routes");
+require("../auth/routes/user.routes");
 
 app.use(bodyParser.json());
 app.use(
@@ -61,20 +56,13 @@ app.listen(port, () => {
       path.join(__dirname, "..", "client", "index.html")
   );
 });
-<<<<<<< HEAD
-// app.use("/todo_list/", todoRouter);
-=======
 app.use("/todo_list", todoRouter);
 app.use("/todo_list/createtable", todoRouter);
->>>>>>> parent of 23c19c8 (added netlify.toml)
 app.use(
   "/todo_list/static",
   express.static(path.join(__dirname, "..", "client"))
 );
-router.get("/hello", (req, res) => res.send("Hello World!"));
-
 app.use(bodyParser.json());
-app.use("/server/index", router);
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
@@ -87,11 +75,6 @@ app.delete("/", (req, res) => {
 });
 app.put("/", editTodo);
 
-<<<<<<< HEAD
-module.exports.handler = serverless(app);
-
-=======
->>>>>>> parent of 23c19c8 (added netlify.toml)
 //https://expressjs.com/en/guide/routing.html
 //https://stackoverflow.com/questions/30845416/how-to-go-back-1-folder-level-with-dirname path source
 //https://expressjs.com/en/starter/static-files.html static path for css
