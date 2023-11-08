@@ -15,6 +15,6 @@
     "server": "NODE_ENV=development ./node_modules/.bin/netlify-lambda serve server /",
     "start": "cd server && npm run dev",
     "dev": "nodemon index.js",
-    "build": "netlify deploy --prod"
+    "build": "cd server && npm run dev"
   }
 }
