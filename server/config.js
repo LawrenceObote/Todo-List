@@ -1,6 +1,6 @@
 //config.js
 
-const { Client } = require("pg");
+const { Client, Pool } = require("pg");
 const dotenv = require("dotenv");
 dotenv.config();
 const port = process.env.PORT;
@@ -49,12 +49,11 @@ client.on("connect", () => {
 // client.connect((err) => {
 // });
 
-const pool = {
-  max: 5,
-  min: 0,
-  acquire: 30000,
-  idle: 10000,
-};
+const connectionString = process.env.DATABASE_URL;
+
+const pool = new Pool({
+  connectionString,
+});
 
 module.exports = {
   client,
