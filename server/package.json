@@ -17,7 +17,9 @@
     "netlify-cli": "^17.0.1",
     "netlify-lambda": "^2.0.16",
     "pg": "^8.11.3",
+    "pg-hstore": "^2.3.4",
     "pg-pool": "^3.6.1",
+    "sequelize": "^6.34.0",
     "serve-index": "^1.9.1",
     "sql-template-strings": "^2.2.2"
   },

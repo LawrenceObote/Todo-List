@@ -9,37 +9,37 @@ const { editTodo, createTable } = require("./controller");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const db = require("../auth/models");
-const Role = db.role;
+// const db = require("../auth/models");
+// const Role = db.role;
 
-function initial() {
-  Role.create({
-    id: 1,
-    name: "user",
-  });
+// function initial() {
+//   Role.create({
+//     id: 1,
+//     name: "user",
+//   });
 
-  Role.create({
-    id: 2,
-    name: "moderator",
-  });
+//   Role.create({
+//     id: 2,
+//     name: "moderator",
+//   });
 
-  Role.create({
-    id: 3,
-    name: "admin",
-  });
-}
+//   Role.create({
+//     id: 3,
+//     name: "admin",
+//   });
+// }
 //force:true is used because there may be a need to drop existing tagles and re-sync the database(DONT USE FOR PRODUCTION)
-db.sequelize.sync({ force: true }).then(() => {
-  console.log("Drop and Resync Db");
-  initial();
-});
+// db.sequelize.sync({ force: true }).then(() => {
+//   console.log("Drop and Resync Db");
+//   initial();
+// });
 
 // //USE THESE LINES FOR PRODUCTION INSTEAD AND INSERT ROWS MANUALLY
 // const db = require("../auth/models");
 // db.sequalize.sync();
 
-require("../auth/routes/auth.routes");
-require("../auth/routes/user.routes");
+// require("../auth/routes/auth.routes");
+// require("../auth/routes/user.routes");
 
 app.use(bodyParser.json());
 app.use(

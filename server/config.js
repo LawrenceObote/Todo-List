@@ -4,14 +4,16 @@ const { Client } = require("pg");
 const dotenv = require("dotenv");
 dotenv.config();
 const port = process.env.PORT;
-console.log(port, "-");
-// console.log("okay", await isTableCreated);
+console.log(process.env.DATABASE_NAME, "-");
 const client = new Client({
-  user: process.env.DATABASE_USER,
-  host: process.env.DATABASE_HOST,
   database: process.env.DATABASE_NAME,
+  user: process.env.DATABASE_USER,
+  host: process.env.HOST,
   password: process.env.DATABASE_PASSWORD,
-  port: 5433,
+  dialect: "postgres",
+  dialectOptions: {
+    ssl: "Amazon RDS",
+  },
 });
 
 client.connect(function (err) {

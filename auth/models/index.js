@@ -20,8 +20,16 @@ dotenv.config();
 //         }
 //     }
 // );
-
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+console.log(process.env.DATABASE_URL);
+const sequelize = new Sequelize(
+  process.env.DATABASE_URL,
+  process.env.DATABASE_USERNAME,
+  process.env.DATABASE_PASSWORD,
+  {
+    dialect: "postgres",
+    host: "lawrence-portfolio.cefidgdpbtcu.eu-north-1.rds.amazonaws.com",
+  }
+);
 
 const db = {};
 
