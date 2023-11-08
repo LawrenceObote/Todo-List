@@ -10,7 +10,8 @@
     "pg": "^8.11.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.34.0",
-    "serverless-http": "^3.2.0"
+    "serverless-http": "^3.2.0",
+    "sql-template-strings": "^2.2.2"
   },
   "scripts": {
     "server": "NODE_ENV=development ./node_modules/.bin/netlify-lambda serve server /",
