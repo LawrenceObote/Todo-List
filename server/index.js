@@ -53,15 +53,15 @@ app.listen(port, () => {
   console.log(
     "Node.js listening... " +
       port +
-      path.join(__dirname, "..", "client", "index.html")
+      path.join(__dirname, "..", "client", "todo.html")
   );
 });
-app.use("/todo_list", todoRouter);
-app.use("/todo_list/createtable", todoRouter);
 app.use(
   "/todo_list/static",
-  express.static(path.join(__dirname, "..", "client"))
+  express.static(path.join(__dirname, "..", "client", "todo.html"))
 );
+app.use("/todo_list", todoRouter);
+app.use("/todo_list/createtable", todoRouter);
 app.use(bodyParser.json());
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "index.html"));

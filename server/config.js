@@ -10,10 +10,10 @@ const client = new Client({
   user: process.env.DATABASE_USER,
   host: process.env.HOST,
   password: process.env.DATABASE_PASSWORD,
-  dialect: "postgres",
-  dialectOptions: {
-    ssl: "Amazon RDS",
-  },
+  // dialect: "postgres",
+  // dialectOptions: {
+  //   ssl: "Amazon RDS",
+  // },
 });
 
 client.connect(function (err) {
